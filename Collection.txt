@@ -8,4 +8,4 @@
 #(1 2 3 -44 0 5 6 4 5 -3 22 1 2 5) inject: 0 into: [ :sum :each | sum + each ]
 
 4.Donnez l’expression qui rend le premier nombre négatif
-#(1 2 3 -44 0 5 6 4 5 -3 22 1 2 5) select: [ :e | e<0 ]
+#(1 2 3 -44 0 5 6 4 5 -3 22 1 2 5) detect: [ :each | each < 0 ]
