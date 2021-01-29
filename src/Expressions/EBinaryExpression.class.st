@@ -17,7 +17,7 @@ EBinaryExpression >> left: anExpression [
 { #category : #accessing }
 EBinaryExpression >> operatorString [
 
-	^ ' + '
+	^ self subclassResponsibility 
 ]
 
 { #category : #printing }

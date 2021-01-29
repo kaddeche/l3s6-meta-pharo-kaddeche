@@ -29,6 +29,12 @@ EMultiplication >> evaluate [
 ]
 
 { #category : #accessing }
+EMultiplication >> evaluateWith: anObject [ 
+
+	^ (right evaluateWith: anObject ) + (left evaluateWith: anObject )
+]
+
+{ #category : #accessing }
 EMultiplication >> operatorString [
 
 	^ ' * '

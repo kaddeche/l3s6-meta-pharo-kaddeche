@@ -13,7 +13,7 @@ EConstantTest >> testCreationWithClassCreationMessage [
 { #category : #tests }
 EConstantTest >> testEvaluate [ 
 
-	self assert: (EConstant new value: 5) evaluate equals: 5
+	self assert: ((EConstant constant5 ) evaluateWith: Dictionary new )equals: 5
 ]
 
 { #category : #tests }

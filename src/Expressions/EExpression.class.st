@@ -4,6 +4,12 @@ Class {
 	#category : #Expressions
 }
 
+{ #category : #accessing }
+EExpression >> evaluateWith: aDictionary [
+
+	^ self evaluate
+]
+
 { #category : #arithmetic }
 EExpression >> negated [
 
