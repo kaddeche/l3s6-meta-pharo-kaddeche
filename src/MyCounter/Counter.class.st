@@ -54,11 +54,10 @@ Counter >> initialize [
 { #category : #printing }
 Counter >> printOn: aStream [
 	super printOn: aStream.
-	aStream nextPutAll: ' with value: ', count printString.
-	aStream cr
+	aStream nextPutAll: ' with value: ', self count printString.
 ]
 
-{ #category : #printing }
+{ #category : #initialization }
 Counter >> withValue: anInteger [ 
 	| c |
 	c := self new count: anInteger.
