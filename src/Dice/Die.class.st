@@ -18,6 +18,14 @@ Die class >> withFaces: aNumber [
 	^ self new faces: aNumber; yourself
 ]
 
+{ #category : #arithmetic }
+Die >> + aDieOrADieHandle [ 
+
+	|selfAsDieHandle|
+	selfAsDieHandle := DieHandle new addDie: self.
+	^ selfAsDieHandle + aDieOrADieHandle 
+]
+
 { #category : #accessing }
 Die >> faces [ 
 	^ faces

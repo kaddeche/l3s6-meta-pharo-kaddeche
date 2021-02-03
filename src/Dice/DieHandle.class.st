@@ -11,13 +11,19 @@ Class {
 }
 
 { #category : #arithmetic }
-DieHandle >> + aDieHandle [
-	
-	| handle |
-	handle := DieHandle new.
-	self dice do: [  :each | handle addDie: each  ].
-	aDieHandle  dice do: [ :each | handle addDie: each ].
-	^ handle 
+DieHandle >> + aDieOrADieHandle [
+
+	^ (aDieOrADieHandle class = DieHandle )
+		ifTrue: [ | handle |
+				handle := self class new.
+				self dice do: [ :each | handle addDie: each ].
+				aDieOrADieHandle dice do: [ :each | handle addDie: each ].
+				handle ]
+		ifFalse: [  | handle |
+				handle := self class new.
+				self dice do: [ :each | handle addDie: each ].
+				handle addDie: aDieOrADieHandle .
+				handle ]
 ]
 
 { #category : #adding }
