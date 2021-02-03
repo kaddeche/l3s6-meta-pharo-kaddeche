@@ -54,3 +54,11 @@ Die >> printOn: aStream [
 Die >> roll [ 
 	^ faces atRandom 
 ]
+
+{ #category : #arithmetic }
+Die >> sumWithDie: aDie [ 
+
+	^  DieHandle new 
+		addDie: self;
+		addDie: aDie; yourself 
+]
