@@ -19,11 +19,11 @@ Die class >> withFaces: aNumber [
 ]
 
 { #category : #arithmetic }
-Die >> + aDieOrADieHandle [ 
+Die >> + aDie [
 
-	|selfAsDieHandle|
-	selfAsDieHandle := DieHandle new addDie: self.
-	^ selfAsDieHandle + aDieOrADieHandle 
+	^  DieHandle new 
+		addDie: self;
+		addDie: aDie; yourself 
 ]
 
 { #category : #accessing }
