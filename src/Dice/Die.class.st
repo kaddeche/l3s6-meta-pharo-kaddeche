@@ -60,3 +60,13 @@ Die >> sumWithDie: aDie [
 		addDie: self;
 		addDie: aDie; yourself 
 ]
+
+{ #category : #arithmetic }
+Die >> sumWithHandle: aDieHandle [ 
+
+	| handle |
+	handle := DieHandle new.
+	aDieHandle dice do: [  :each | handle addDie: each ].
+	handle addDie: self.
+	^ handle
+]

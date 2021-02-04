@@ -64,7 +64,7 @@ DieHandle >> sumWithDie: aDie [
 	^ handle
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #arithmetic }
 DieHandle >> sumWithHandle: aDieHandle [ 
 
 	| handle |
