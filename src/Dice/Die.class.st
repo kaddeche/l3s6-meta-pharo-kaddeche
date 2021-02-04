@@ -19,11 +19,9 @@ Die class >> withFaces: aNumber [
 ]
 
 { #category : #arithmetic }
-Die >> + aDie [
+Die >> + aDicable [
 
-	^  DieHandle new 
-		addDie: self;
-		addDie: aDie; yourself 
+	^  aDicable sumWithDie: self
 ]
 
 { #category : #accessing }
