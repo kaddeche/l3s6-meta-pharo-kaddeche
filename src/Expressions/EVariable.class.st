@@ -7,6 +7,14 @@ Class {
 	#category : #Expressions
 }
 
+{ #category : #accessing }
+EVariable class >> id: anId [
+
+	^ self new 
+	id: anId;
+	yourself 
+]
+
 { #category : #visiting }
 EVariable >> accept: aVisitor [ 
 
@@ -17,6 +25,12 @@ EVariable >> accept: aVisitor [
 EVariable >> evaluateWith: aBindingDictonary [
 
 	^ aBindingDictonary at: id
+]
+
+{ #category : #accessing }
+EVariable >> id [ 
+
+	^ id
 ]
 
 { #category : #accessing }

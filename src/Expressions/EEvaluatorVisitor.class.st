@@ -5,11 +5,23 @@ Class {
 	#name : #EEvaluatorVisitor,
 	#superclass : #Object,
 	#instVars : [
-		'left',
-		'right'
+		'bindings'
 	],
 	#category : #'Expressions-Model'
 }
+
+{ #category : #accessing }
+EEvaluatorVisitor >> at: anId put: aValue [
+
+	bindings at: anId put: aValue
+]
+
+{ #category : #initialization }
+EEvaluatorVisitor >> initialize [ 
+
+	super initialize .
+	bindings := Dictionary new
+]
 
 { #category : #accessing }
 EEvaluatorVisitor >> left [ 
@@ -64,4 +76,10 @@ EEvaluatorVisitor >> visitNegation: anENegation [
 	|aNumber|
 	aNumber := anENegation expression accept: self.
 	^ aNumber negated
+]
+
+{ #category : #initialization }
+EEvaluatorVisitor >> visitVariable: aVariable [ 
+
+	^ bindings at: aVariable id
 ]
