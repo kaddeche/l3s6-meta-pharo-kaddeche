@@ -4,6 +4,12 @@ Class {
 	#category : #Expressions
 }
 
+{ #category : #visiting }
+EExpression >> accept: aVisitor [ 
+
+	self subclassResponsibility 
+]
+
 { #category : #accessing }
 EExpression >> evaluateWith: aDictionary [
 

@@ -44,5 +44,5 @@ EAdditionTest >> testNegated [
 { #category : #tests }
 EAdditionTest >> testPrinting [ 
 	self assert: (EAddition fivePlusThre) printString equals: '( 5 + 3 )'.
-	self assert: (EAddition fivePlusThre) negated printString equals: '- ( 5 + 3 )'
+	self assert: (EAddition fivePlusThre) negated printString equals: '-( 5 + 3 )'
 ]

@@ -16,6 +16,12 @@ ENegation class >> expression: anExpression [
 	^ self new expression: anExpression 
 ]
 
+{ #category : #visiting }
+ENegation >> accept: aVisitor [ 
+
+	^ aVisitor visitNegation: self 
+]
+
 { #category : #'public access' }
 ENegation >> evaluate [ 
 
@@ -26,7 +32,12 @@ ENegation >> evaluate [
 { #category : #accessing }
 ENegation >> evaluateWith: anObject [ 
 
-	^ (expression evaluateWith: anObject ) negated
+	^ self accept: EEvaluatorVisitor new
+]
+
+{ #category : #visiting }
+ENegation >> expression [ 
+	^ expression
 ]
 
 { #category : #accessing }
@@ -45,6 +56,6 @@ ENegation >> negated [
 { #category : #printing }
 ENegation >> printOn: aStream [
 
-	aStream nextPutAll: '- '.
+	aStream nextPutAll: '-'.
 	expression printOn: aStream 
 ]

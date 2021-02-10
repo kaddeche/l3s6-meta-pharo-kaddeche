@@ -22,6 +22,12 @@ EAddition class >> left: anInteger right: anInteger2 [
 	^ self new left: anInteger ; right: anInteger2 
 ]
 
+{ #category : #visiting }
+EAddition >> accept: aVisitor [ 
+
+	^ aVisitor visitAddition: self
+]
+
 { #category : #accessing }
 EAddition >> evaluate [ 
 
@@ -32,7 +38,7 @@ EAddition >> evaluate [
 { #category : #accessing }
 EAddition >> evaluateWith: anObject [ 
 
-	^ (right evaluateWith: anObject ) + (left evaluateWith: anObject )
+	^ self accept: EEvaluatorVisitor new
 ]
 
 { #category : #accessing }
