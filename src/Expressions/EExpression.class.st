@@ -11,9 +11,12 @@ EExpression >> accept: aVisitor [
 ]
 
 { #category : #accessing }
-EExpression >> evaluateWith: aDictionary [
+EExpression >> evaluateWith: anObject [ 
 
-	^ self evaluate
+	| visitor |
+	visitor := EEvaluatorVisitor new.
+	visitor bindings: anObject.
+	^ self accept: visitor.
 ]
 
 { #category : #arithmetic }

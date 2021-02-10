@@ -22,12 +22,6 @@ EVariable >> accept: aVisitor [
 ]
 
 { #category : #accessing }
-EVariable >> evaluateWith: aBindingDictonary [
-
-	^ aBindingDictonary at: id
-]
-
-{ #category : #accessing }
 EVariable >> id [ 
 
 	^ id

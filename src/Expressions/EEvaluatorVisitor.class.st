@@ -16,6 +16,12 @@ EEvaluatorVisitor >> at: anId put: aValue [
 	bindings at: anId put: aValue
 ]
 
+{ #category : #accessing }
+EEvaluatorVisitor >> bindings: aDictionary [ 
+
+	bindings := aDictionary 
+]
+
 { #category : #initialization }
 EEvaluatorVisitor >> initialize [ 
 
