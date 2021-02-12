@@ -3,7 +3,7 @@ DepthCalculatorVisitor
 "
 Class {
 	#name : #DepthCalculatorVisitor,
-	#superclass : #Object,
+	#superclass : #BaseASTVisitor,
 	#category : #VisitorExample
 }
 
