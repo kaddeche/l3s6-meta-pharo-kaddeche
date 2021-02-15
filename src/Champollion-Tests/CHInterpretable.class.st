@@ -2,10 +2,43 @@ Class {
 	#name : #CHInterpretable,
 	#superclass : #Object,
 	#instVars : [
-		'x'
+		'x',
+		'collaborator'
 	],
 	#category : #'Champollion-Tests'
 }
+
+{ #category : #'as yet unclassified' }
+CHInterpretable >> changeCollaboratorX [ [
+	collaborator store100IntoX
+]
+]
+
+{ #category : #accessing }
+CHInterpretable >> collaborator [ [
+	^ collaborator
+]
+]
+
+{ #category : #accessing }
+CHInterpretable >> collaborator: anObject [ [
+	collaborator := anObject
+]
+]
+
+{ #category : #'as yet unclassified' }
+CHInterpretable >> endMessageReturnX [ [
+	^ self returnX
+]
+]
+
+{ #category : #'as yet unclassified' }
+CHInterpretable >> etXAndMessage [ [
+	x := 1000.
+	collaborator returnX.
+	^ x
+]
+]
 
 { #category : #'as yet unclassified' }
 CHInterpretable >> returnBoolean [ [

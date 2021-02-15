@@ -2,7 +2,8 @@ Class {
 	#name : #CHInterpreter,
 	#superclass : #Object,
 	#instVars : [
-		'globalScope'
+		'stack',
+		'result'
 	],
 	#category : #'Champollion-Core'
 }
@@ -22,9 +23,21 @@ CHInterpreter >> execute: anAST [ [
 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CHInterpreter >> execute: anAST withReceiver: anObject [ [
-	receiver := anObject.^ self visitNode: anAST
+	self pushNewFrame.
+	self topFrame receiver: anObject.
+	^ self visitNode: anAST
+]
+]
+
+{ #category : #'as yet unclassified' }
+CHInterpreter >> executeMethod: anAST withReceiver: anObject [ [
+	self pushNewFrame.
+	self topFrame receiver: anObject.
+	result := self visitNode: anAST.
+	self popFrame.
+	^ result
 ]
 ]
 
@@ -37,19 +50,40 @@ CHInterpreter >> globalEnvironmentAt: aSymbol put: anObject [ [
 { #category : #initialization }
 CHInterpreter >> initialize [ [
 	super initialize.
-	globalScope := CHGlobalScope new
+	stack := CTStack new.
+]
+]
+
+{ #category : #'as yet unclassified' }
+CHInterpreter >> popFrame [ [
+	stack pop
 ]
 ]
 
 { #category : #accessing }
 CHInterpreter >> receiver [ [
-	^ receiver
+	^ self topFrame receiver
 ]
 ]
 
 { #category : #'as yet unclassified' }
 CHInterpreter >> scopeDefining: aName [ [
 	^ self currentScope scopeDefining: aName
+]
+]
+
+{ #category : #accessing }
+CHInterpreter >> topFrame [ [
+	^ stack top
+]
+]
+
+{ #category : #accessing }
+CHInterpreter >> ushNewFrame [ [
+	| newTop |
+	newTop := CHMethodScope new.
+	stack push: newTop.
+	^ newTop
 ]
 ]
 

@@ -2,8 +2,8 @@ Class {
 	#name : #CHInterpreterTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'interpreter',
-		'receiver'
+		'receiver',
+		'collaborator'
 	],
 	#category : #'Champollion-Tests'
 }
@@ -32,7 +32,9 @@ CHInterpreterTest >> interpreter [ [
 { #category : #running }
 CHInterpreterTest >> setUp [ [
 	super setUp.
-	receiver := CHInterpretable new
+	receiver := CHInterpretable new.
+	collaborator := CHInterpretable new.
+	receiver collaborator: collaborator
 ]
 ]
 
@@ -41,6 +43,25 @@ CHInterpreterTest >> testAssignmentReturnsAssignedValue [ [
 	self
 		assert: (self executeSelector: #store100IntoX)
 		equals: 100
+]
+]
+
+{ #category : #tests }
+CHInterpreterTest >> testBalancingStack [ [
+	self
+		assert: (self executeSelector: #setXAndMessage)
+		equals: 1000
+]
+]
+
+{ #category : #tests }
+CHInterpreterTest >> testInstanceVariableStoreInMethodActivationDoesNotChangeSender [ [
+	receiver x: 200.
+	collaborator x: 300.
+	"changeCollaboratorX will replace collaborator's x but not thereceiver's"
+	self executeSelector: #changeCollaboratorX.
+	self assert: receiver x equals: 200.
+	self assert: collaborator x equals: 100
 ]
 ]
 
@@ -124,9 +145,28 @@ CHInterpreterTest >> testReturnSuper [ [
 ]
 
 { #category : #tests }
+CHInterpreterTest >> testSelfSend [ [
+	receiver x: 100.
+	self
+		assert: (self executeSelector: #sendMessageReturnX)
+		equals: 100
+]
+]
+
+{ #category : #tests }
 CHInterpreterTest >> testStore100IntoX [ [
 	receiver x: 17.
 	self executeSelector: #store100IntoX.
 	self assert: receiver x equals: 100
+]
+]
+
+{ #category : #tests }
+CHInterpreterTest >> visitMessageNode: aMessageNode [ [
+	| newReceiver method |
+	newReceiver := self visitNode: aMessageNode receiver.
+	method := (newReceiver class compiledMethodAt: aMessageNode
+		selector) ast.
+	^ self execute: method withReceiver: newReceiver
 ]
 ]
