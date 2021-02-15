@@ -137,6 +137,14 @@ CHInterpreter >> ushNewFrame [ [
 ]
 
 { #category : #visiting }
+CHInterpreter >> visitArrayNode: aRBArrayNode [ [
+	^ aRBArrayNode statements
+	collect: [ :e | self visitNode: e ]
+	as: Array
+]
+]
+
+{ #category : #visiting }
 CHInterpreter >> visitAssignmentNode: anAssignmentNode [ [
 	| value |
 	value := self visitNode: anAssignmentNode value.
@@ -170,11 +178,11 @@ CHInterpreter >> visitLiteralValueNode: aLiteralValueNode [ [
 ]
 
 { #category : #visiting }
-CHInterpreter >> visitMessageNode: aMessageNode [
-[
+CHInterpreter >> visitMessageNode: aMessageNode [ [
 	| newReceiver method args |
-	args := aMessageNode arguments collect: [ :each | self visitNode:each ].
 	newReceiver := self visitNode: aMessageNode receiver.
+	args := aMessageNode arguments collect: [ :each | self visitNode:
+		each ].
 	method := (newReceiver class compiledMethodAt: aMessageNode
 	selector) ast.
 	^ self executeMethod: method withReceiver: newReceiver

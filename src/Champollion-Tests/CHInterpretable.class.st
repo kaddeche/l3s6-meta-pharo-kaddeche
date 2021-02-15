@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'x',
-		'collaborator'
+		'collaborator',
+		'evaluationOrder'
 	],
 	#category : #'Champollion-Tests'
 }
@@ -46,10 +47,29 @@ CHInterpretable >> etXAndMessage [ [
 ]
 ]
 
+{ #category : #accessing }
+CHInterpretable >> evaluateReceiver [ [
+	evaluationOrder := self next.
+	^ self
+]
+]
+
+{ #category : #accessing }
+CHInterpretable >> evaluationOrder [ [
+	^ evaluationOrder
+	]
+]
+
 { #category : #initialization }
 CHInterpretable >> initialize [ [
 	super initialize.
 	current := { "empty" }.
+]
+]
+
+{ #category : #accessing }
+CHInterpretable >> messageArg1: arg1 arg2: arg2 arg3: arg3 [ [
+	^ {arg1 . arg2 . arg3}
 ]
 ]
 
@@ -74,6 +94,15 @@ CHInterpretable >> returnBoolean [ [
 CHInterpretable >> returnEmptyLiteralArray [ [
 	^ #()
 ]
+]
+
+{ #category : #accessing }
+CHInterpretable >> returnEvaluationOrder [ [
+	^ self evaluateReceiver
+		messageArg1: self next
+		arg2: self next
+		arg3: self next
+	]
 ]
 
 { #category : #'as yet unclassified' }

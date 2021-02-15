@@ -74,6 +74,18 @@ CHInterpreterTest >> testBalancingStack [ [
 ]
 
 { #category : #tests }
+CHInterpreterTest >> testEvaluationOrder [ [
+	| argumentEvaluationOrder |
+	argumentEvaluationOrder := self executeSelector:#returnEvaluationOrder.
+	self assert: (self peanoToInt: receiver evaluationOrder) equals: 0.
+	self 
+		assert: (argumentEvaluationOrder collect:
+		[ :peano | self peanoToInt: peano])
+		equals: #(1 2 3)
+	]
+]
+
+{ #category : #tests }
 CHInterpreterTest >> testInstanceVariableStoreInMethodActivationDoesNotChangeSender [ [
 	receiver x: 200.
 	collaborator x: 300.
