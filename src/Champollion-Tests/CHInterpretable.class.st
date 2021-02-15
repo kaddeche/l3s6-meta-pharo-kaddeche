@@ -34,3 +34,9 @@ CHInterpretable >> returnRecursiveLiteralArray [ [
 	^ #(true 1 #('ahah'))
 ]
 ]
+
+{ #category : #'as yet unclassified' }
+CHInterpretable >> returnSelf [ [
+	^ self
+]
+]
