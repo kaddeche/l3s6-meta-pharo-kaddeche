@@ -1,6 +1,9 @@
 Class {
 	#name : #CHInterpretable,
 	#superclass : #Object,
+	#instVars : [
+		'x'
+	],
 	#category : #'Champollion-Tests'
 }
 
@@ -38,5 +41,29 @@ CHInterpretable >> returnRecursiveLiteralArray [ [
 { #category : #'as yet unclassified' }
 CHInterpretable >> returnSelf [ [
 	^ self
+]
+]
+
+{ #category : #'as yet unclassified' }
+CHInterpretable >> returnSuper [ [
+	^ super
+]
+]
+
+{ #category : #'as yet unclassified' }
+CHInterpretable >> returnX [ [
+	^ x
+]
+]
+
+{ #category : #visiting }
+CHInterpretable >> visitSelfNode: aNode [ [
+	^ self receiver
+]
+]
+
+{ #category : #'as yet unclassified' }
+CHInterpretable >> x: anInteger [ [
+	x := anInteger
 ]
 ]
