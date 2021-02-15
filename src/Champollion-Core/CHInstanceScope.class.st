@@ -35,3 +35,9 @@ CHInstanceScope >> scopeDefining: aString [ [
 		^ self parentScope scopeDefining: aString
 ]
 ]
+
+{ #category : #writing }
+CHInstanceScope >> write: aString withValue: anInteger [ [
+	receiver instVarNamed: aString put: anInteger
+]
+]

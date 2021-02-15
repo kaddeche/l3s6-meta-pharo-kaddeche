@@ -56,9 +56,21 @@ CHInterpretable >> returnX [ [
 ]
 ]
 
+{ #category : #'as yet unclassified' }
+CHInterpretable >> store100IntoX [ [
+	^ x := 100
+]
+]
+
 { #category : #visiting }
 CHInterpretable >> visitSelfNode: aNode [ [
 	^ self receiver
+]
+]
+
+{ #category : #accessing }
+CHInterpretable >> x [ [
+	^ x
 ]
 ]
 

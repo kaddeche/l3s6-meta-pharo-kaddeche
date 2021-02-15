@@ -39,14 +39,14 @@ CHInterpreter >> scopeDefining: aName [ [
 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visiting }
 CHInterpreter >> visitAssignmentNode: anAssignmentNode [ [
 	| value |
 	value := self visitNode: anAssignmentNode value.
 	(self scopeDefining: anAssignmentNode variable name)
 		write: anAssignmentNode variable name
 		withValue: value.
-		^ value
+	^ value
 ]
 ]
 

@@ -1,12 +1,17 @@
 Class {
 	#name : #CHInterpreterTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'interpreter',
+		'receiver'
+	],
 	#category : #'Champollion-Tests'
 }
 
 { #category : #'as yet unclassified' }
-CHInterpreterTest >> executeSelector: aSymbol [ [
-	^ self executeSelector: aSymbol withReceiver: nil
+CHInterpreterTest >> executeSelector: aSymbol [ | selector |
+[
+	^ self executeSelector: selector withReceiver: receiver
 ]
 ]
 
@@ -21,6 +26,21 @@ CHInterpreterTest >> executeSelector: aSymbol withReceiver:aReceiver [ [
 { #category : #'as yet unclassified' }
 CHInterpreterTest >> interpreter [ [
 	^ CHInterpreter new
+]
+]
+
+{ #category : #running }
+CHInterpreterTest >> setUp [ [
+	super setUp.
+	receiver := CHInterpretable new
+]
+]
+
+{ #category : #tests }
+CHInterpreterTest >> testAssignmentReturnsAssignedValue [ [
+	self
+		assert: (self executeSelector: #store100IntoX)
+		equals: 100
 ]
 ]
 
@@ -49,14 +69,12 @@ CHInterpreterTest >> testReturnFloat [ [
 ]
 ]
 
-{ #category : #tests }
+{ #category : #'as yet unclassified' }
 CHInterpreterTest >> testReturnInstanceVariableRead [ [
-	| receiver |
-	receiver := CHInterpretable new.
 	receiver x: 100.
 	self
-		assert: (self executeSelector: #returnX withReceiver: receiver)
-		equals: 100
+	assert: (self executeSelector: #returnX)
+	equals: 100
 ]
 ]
 
@@ -76,26 +94,29 @@ CHInterpreterTest >> testReturnRecursiveLiteralArray [ [
 ]
 ]
 
-{ #category : #tests }
+{ #category : #'as yet unclassified' }
 CHInterpreterTest >> testReturnSelf [ [
-	| receiver |
-	receiver := Object new.
 	"Convey our intention of checking identity by using an explicitidentity check"
 	self assert: (self
-	executeSelector: #returnSelf
-	withReceiver: receiver)
-	== receiver
+		executeSelector: #returnSelf
+		withReceiver: receiver)
+		== receiver
 ]
 ]
 
-{ #category : #tests }
+{ #category : #'as yet unclassified' }
 CHInterpreterTest >> testReturnSuper [ [
-	| receiver |
-	receiver := Object new.
 	"Convey our intention of checking identity by using an explicitidentity check"
 	self assert: (self
-	executeSelector: #returnSuper
-	withReceiver: receiver)
-	== receiver
+		executeSelector: #returnSelf
+		withReceiver: receiver)== receiver
+	]
+]
+
+{ #category : #tests }
+CHInterpreterTest >> testStore100IntoX [ [
+	receiver x: 17.
+	self executeSelector: #store100IntoX.
+	self assert: receiver x equals: 100
 ]
 ]
