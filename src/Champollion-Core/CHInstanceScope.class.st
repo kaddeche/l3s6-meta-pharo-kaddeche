@@ -5,7 +5,8 @@ Class {
 	#name : #CHInstanceScope,
 	#superclass : #Object,
 	#instVars : [
-		'receiver'
+		'receiver',
+		'parentScope'
 	],
 	#category : #'Champollion-Core'
 }
@@ -13,6 +14,18 @@ Class {
 { #category : #accessing }
 CHInstanceScope >> definedVariables [ [
 	^ receiver class allInstVarNames
+]
+]
+
+{ #category : #accessing }
+CHInstanceScope >> parentScope [ [
+	^ parentScope
+]
+]
+
+{ #category : #accessing }
+CHInstanceScope >> parentScope: anObject [ [
+	parentScope := anObject
 ]
 ]
 

@@ -69,6 +69,16 @@ CHInterpreterTest >> testReturnFloat [ [
 ]
 ]
 
+{ #category : #tests }
+CHInterpreterTest >> testReturnGlobal [ [
+	| globalObject |
+	globalObject := Object new.
+	interpreter globalEnvironmentAt: #Global put: globalObject.
+	self assert: (self executeSelector: #returnGlobal) equals:
+		globalObject
+]
+]
+
 { #category : #'as yet unclassified' }
 CHInterpreterTest >> testReturnInstanceVariableRead [ [
 	receiver x: 100.
