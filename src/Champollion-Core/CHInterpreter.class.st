@@ -3,17 +3,14 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'stack',
-		'result'
+		'globalScope'
 	],
 	#category : #'Champollion-Core'
 }
 
-{ #category : #visiting }
+{ #category : #private }
 CHInterpreter >> currentScope [ [
-	^ CHInstanceScope new
-		receiver: self receiver;
-		parentScope: globalScope;
-		yourself
+	^ self topFrame
 ]
 ]
 
@@ -24,10 +21,41 @@ CHInterpreter >> execute: anAST [ [
 ]
 
 { #category : #accessing }
-CHInterpreter >> execute: anAST withReceiver: anObject [ [
+CHInterpreter >> execute: anAST withReceiver: anObject [ | globalScope |
+[
+	| result |
 	self pushNewFrame.
-	self topFrame receiver: anObject.
-	^ self visitNode: anAST
+	"Set up the scope chain"
+	self topFrame parentScope: (CHInstanceScope new
+		receiver: anObject;
+		parentScope: globalScope;
+		yourself);
+		yourself.
+		self topFrame receiver: anObject.
+		result := self visitNode: anAST.
+		self popFrame.
+		^ result
+]
+]
+
+{ #category : #visiting }
+CHInterpreter >> execute: anAST withReceiver: anObject andArguments:
+	aCollection [ | globalScope |
+[
+		| result |
+		self pushNewFrame.
+		"Set up the scope chain"
+		self topFrame parentScope: (CHInstanceScope new
+		receiver: anObject;
+		parentScope: globalScope;
+		yourself);
+		yourself.
+		self topFrame receiver: anObject.
+		anAST arguments
+			with: aCollection
+			do: [ :arg :value | self topFrame at: arg name put: value ].
+			result := self visitNode: anAST.self popFrame.
+			^ result
 ]
 ]
 
@@ -38,6 +66,27 @@ CHInterpreter >> executeMethod: anAST withReceiver: anObject [ [
 	result := self visitNode: anAST.
 	self popFrame.
 	^ result
+]
+]
+
+{ #category : #'as yet unclassified' }
+CHInterpreter >> executeMethod: anAST withReceiver: anObject
+	andArguments: aCollection [ [
+	| result |
+	self pushNewFrame.
+	self topFrame parentScope: (CHInstanceScope new
+	receiver: anObject;
+	parentScope: globalScope;
+	yourself);
+	yourself.
+	self topFrame receiver: anObject.
+	anAST arguments with: aCollection do: [ :arg :value | self tempAt:
+		arg name put: value ].
+	anAST temporaryNames do: [ :tempName | self tempAt: tempName name
+		put: nil ].
+	result := self visitNode: anAST body.
+	self popFrame.
+	^ result 
 ]
 ]
 
@@ -117,6 +166,19 @@ CHInterpreter >> visitLiteralArrayNode: aLiteralArrayNode [ [
 { #category : #visiting }
 CHInterpreter >> visitLiteralValueNode: aLiteralValueNode [ [
 	^ aLiteralValueNode value
+]
+]
+
+{ #category : #visiting }
+CHInterpreter >> visitMessageNode: aMessageNode [
+[
+	| newReceiver method args |
+	args := aMessageNode arguments collect: [ :each | self visitNode:each ].
+	newReceiver := self visitNode: aMessageNode receiver.
+	method := (newReceiver class compiledMethodAt: aMessageNode
+	selector) ast.
+	^ self executeMethod: method withReceiver: newReceiver
+	andArguments: args
 ]
 ]
 

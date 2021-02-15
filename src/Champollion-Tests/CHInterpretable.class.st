@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+CHInterpretable >> changeCollaboratorWithArgument [ [
+	collaborator x: 500
+]
+]
+
+{ #category : #'as yet unclassified' }
 CHInterpretable >> changeCollaboratorX [ [
 	collaborator store100IntoX
 ]
@@ -37,6 +43,24 @@ CHInterpretable >> etXAndMessage [ [
 	x := 1000.
 	collaborator returnX.
 	^ x
+]
+]
+
+{ #category : #initialization }
+CHInterpretable >> initialize [ [
+	super initialize.
+	current := { "empty" }.
+]
+]
+
+{ #category : #accessing }
+CHInterpretable >> next [ [
+	| result |
+	"Implement a stream as an increment in terms of Peano axioms.See 	https://en.wikipedia.org/wiki/Peano_axioms"
+	result := current.
+	"We increment the counter"current := { current }.
+	"We return the previous result"
+	^ result
 ]
 ]
 
@@ -84,6 +108,13 @@ CHInterpretable >> returnSuper [ [
 ]
 
 { #category : #'as yet unclassified' }
+CHInterpretable >> returnUnassignedTemp [ [
+	| temp |
+	^ temp
+]
+]
+
+{ #category : #'as yet unclassified' }
 CHInterpretable >> returnX [ [
 	^ x
 ]
@@ -98,6 +129,14 @@ CHInterpretable >> store100IntoX [ [
 { #category : #visiting }
 CHInterpretable >> visitSelfNode: aNode [ [
 	^ self receiver
+]
+]
+
+{ #category : #writing }
+CHInterpretable >> writeTemporaryVariable [ [
+	| temp |
+	temp := 100.
+	^ temp
 ]
 ]
 

@@ -29,12 +29,31 @@ CHInterpreterTest >> interpreter [ [
 ]
 ]
 
+{ #category : #'as yet unclassified' }
+CHInterpreterTest >> peanoToInt: aPeanoNumber [ [
+	"Helper method to transform a peano number to a normal Pharointeger"
+	^ aPeanoNumber
+		ifEmpty: [ 0 ]
+		ifNonEmpty: [ 1 + (self peanoToInt: aPeanoNumber first) ]
+]
+]
+
 { #category : #running }
 CHInterpreterTest >> setUp [ [
 	super setUp.
 	receiver := CHInterpretable new.
 	collaborator := CHInterpretable new.
 	receiver collaborator: collaborator
+]
+]
+
+{ #category : #tests }
+CHInterpreterTest >> testArgumentAccess [ [
+	receiver x: 200.
+	collaborator x: 300.
+	self executeSelector: #changeCollaboratorWithArgument.
+	self assert: receiver x equals: 200.
+	self assert: collaborator x equals: 500
 ]
 ]
 
@@ -158,6 +177,22 @@ CHInterpreterTest >> testStore100IntoX [ [
 	receiver x: 17.
 	self executeSelector: #store100IntoX.
 	self assert: receiver x equals: 100
+]
+]
+
+{ #category : #tests }
+CHInterpreterTest >> testUnassignedTempHasNilValue [ [
+	self
+	assert: (self executeSelector: #returnUnassignedTemp)
+	equals: nil
+]
+]
+
+{ #category : #tests }
+CHInterpreterTest >> testWriteTemporaryVariable [ [
+	self
+	assert: (self executeSelector: #writeTemporaryVariable)
+	equals: 100
 ]
 ]
 
